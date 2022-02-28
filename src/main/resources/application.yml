@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    open-in-view: false
+
+logging:
+  level:
+    io:
+      github:
+        gotchamana: DEBUG
