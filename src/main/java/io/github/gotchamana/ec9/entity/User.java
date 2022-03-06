@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.*;
 
 @Entity
+@Table(name = "\"user\"")
 @Getter
 @Setter
 public class User {
