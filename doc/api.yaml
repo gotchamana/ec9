@@ -1,0 +1,740 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: EC9 API
+# ====================================
+# 代碼：
+#  1000：欄位不可為空
+#  1001：帳號重複
+#  1002：密碼非八位數以上且英文數字夾雜的字串
+#  1003：帳號或密碼錯誤
+# 權限：
+#  guest: 訪客
+#  customer: 一般會員
+#  admin：管理員
+# ====================================
+
+tags:
+  - name: 前台-帳號
+    description: 公開存取
+  - name: 前台-用戶
+    description: 僅個人 id 可存取
+  - name: 前台-商品
+    description: 公開存取
+  - name: 前台-結帳
+    description: 現在還不知道要啥 API 嗚嗚嗚嗚 QQ
+  - name: 後台-帳號
+    description: 僅 admin 可存取
+  - name: 後台-商品
+    description: 僅 admin 可存取
+
+paths:
+  /api/v1/register:
+    post:
+      description: 註冊（公開存取）
+      tags:
+        - 前台-帳號
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - "name"
+                - "account"
+                - "psd"
+              properties:
+                name:
+                  type: "string"
+                  example: "tim"
+                account:
+                  type: "string"
+                  example: "a1234@gmail.com"
+                psd:
+                  type: "string"
+                  example: "a1234567"
+      responses:
+        "204":
+          description: 成功
+        "400":
+          description: 失敗
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: number
+              examples:
+                欄位不可為空:
+                  value:
+                    message: 1000
+                帳號重複:
+                  value:
+                    message: 1001
+                密碼非八位數以上且英文數字夾雜的字串:
+                  value:
+                    message: 1002
+
+  /api/v1/login:
+    post:
+      tags:
+        - 前台-帳號
+      description: 用戶登入
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - "account"
+                - "psd"
+              properties:
+                account:
+                  type: "string"
+                  example: "a1234@gmail.com"
+                psd:
+                  type: "string"
+                  example: "a1234567"
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 1111111
+                  userData:
+                    type: object
+                    properties:
+                      userId:
+                        type: string
+                        example: 11111
+                      name:
+                        type: "string"
+                        example: "tim"
+                      account:
+                        type: "string"
+                        example: "a1234@gmail.com"
+
+        "400":
+          description: 失敗
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: number
+              examples:
+                欄位不可為空:
+                  value:
+                    message: 1000
+                帳號或密碼錯誤:
+                  value:
+                    message: 1003
+
+  /api/v1/user/{userId}:
+    get:
+      tags:
+        - 前台-用戶
+      description: 取得用戶資訊
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    example: "11111"
+                  name:
+                    type: "string"
+                    example: "tim"
+                  account:
+                    type: "string"
+                    example: "a1234@gmail.com"
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
+    patch:
+      tags:
+        - 前台-用戶
+      description: 部分更新用戶資訊
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "tim"
+                psd:
+                  type: string
+                  example: "a1234567"
+
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    example: 11111
+                  name:
+                    type: "string"
+                    example: "tim"
+                  account:
+                    type: "string"
+                    example: "a1234@gmail.com"
+
+        "400":
+          description: 失敗
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: number
+              examples:
+                欄位不可為空:
+                  value:
+                    message: 1000
+                帳號重複:
+                  value:
+                    message: 1001
+                密碼非八位數以上且英文數字夾雜的字串:
+                  value:
+                    message: 1002
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
+
+  /api/v1/products:
+    get:
+      tags:
+        - 前台-商品
+      description: 取得商品列表
+      parameters:
+        - name: category
+          in: query
+          description: 商品類別
+          schema:
+            type: string
+            example: 寵物用品,狗,外出
+        - name: keyword
+          in: query
+          description: 關鍵字
+          schema:
+            type: string
+            example: 狗狗
+        - name: minPrice
+          in: query
+          description: 最低價格
+          schema:
+            type: number
+            example: 0
+        - name: maxPrice
+          in: query
+          description: 最高價格
+          schema:
+            type: number
+            example: 1000
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      example: 100
+                    title:
+                      type: string
+                      example: 可調節防潑水魔術氈雨衣-淺藍
+                    imgLink:
+                      type: string
+                      example: https://swagger.io/docs/specification/adding-examples/
+                    price:
+                      type: number
+                      example: 250
+                    score:
+                      type: number
+                      example: 4.3
+
+  /api/v1/product/{productId}:
+    get:
+      tags:
+        - 前台-商品
+      description: 取得商品資訊
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    example: 100
+                  title:
+                    type: string
+                    example: 可調節防潑水魔術氈雨衣-淺藍
+                  imgLink:
+                    type: string
+                    example: https://swagger.io/docs/specification/adding-examples/
+                  brand:
+                    type: string
+                    example: pehom
+                  price:
+                    type: number
+                    example: 250
+                  category:
+                    type: string
+                    example: 寵物用品,狗,外出
+                  description:
+                    type: string
+                    example: 【可調節防潑水魔術氈雨衣】..
+                  rate:
+                    type: number
+                    example: 4.3
+                  rateCount:
+                    type: number
+                    example: 21
+
+    patch:
+      tags:
+        - 前台-商品
+      description: 更新商品的分數
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rate:
+                    type: number
+                    example: 4.6
+                  rateCount:
+                    type: number
+                    example: 25
+
+  /api/v1/user/{userId}/orders:
+    get:
+      tags:
+        - 前台-用戶
+      description: 取得用戶訂單
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "12345678"
+                  date:
+                    type: string
+                    example: "2022-03-08"
+                  isRate:
+                    type: boolean
+                    example: false
+                  price:
+                    type: number
+                    example: 1000
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 1111
+                        title:
+                          type: string
+                          example: 可調節防潑水魔術氈雨衣-淺藍
+                        imgLink:
+                          type: string
+                          example: https://swagger.io/docs/specification/adding-examples/
+
+  # ==== 後台 ====
+  /api/v1/admin/login:
+    post:
+      tags:
+        - 後台-帳號
+      description: 用戶登入後台
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - "account"
+                - "psd"
+              properties:
+                account:
+                  type: "string"
+                  example: "a1234@gmail.com"
+                psd:
+                  type: "string"
+                  example: "a1234567"
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 1111111
+                  userData:
+                    type: object
+                    properties:
+                      userId:
+                        type: string
+                        example: 11111
+                      name:
+                        type: "string"
+                        example: "tim"
+                      account:
+                        type: "string"
+                        example: "a1234@gmail.com"
+
+        "400":
+          description: 失敗
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: number
+              examples:
+                欄位不可為空:
+                  value:
+                    message: 1000
+                帳號或密碼錯誤:
+                  value:
+                    message: 1003
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
+
+  /api/v1/admin/products:
+    get:
+      tags:
+        - 後台-商品
+      description: 取得商品列表
+      parameters:
+        - name: keyword
+          in: query
+          description: 關鍵字
+          schema:
+            type: string
+            example: 狗狗
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    example: 100
+                  title:
+                    type: string
+                    example: 可調節防潑水魔術氈雨衣-淺藍
+                  imgLink:
+                    type: string
+                    example: https://swagger.io/docs/specification/adding-examples/
+                  brand:
+                    type: string
+                    example: pehom
+                  price:
+                    type: number
+                    example: 250
+                  category:
+                    type: string
+                    example: 寵物用品,狗,外出
+                  rate:
+                    type: number
+                    example: 4.3
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
+
+  /api/v1/admin/product:
+    post:
+      tags:
+        - 後台-商品
+      description: 新增商品
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: 可調節防潑水魔術氈雨衣-淺藍
+                imgLink:
+                  type: string
+                  example: https://swagger.io/docs/specification/adding-examples/
+                brand:
+                  type: string
+                  example: pehom
+                price:
+                  type: number
+                  example: 250
+                category:
+                  type: string
+                  example: 寵物用品,狗,外出
+                description:
+                  type: string
+                  example: 【可調節防潑水魔術氈雨衣】..
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    example: 100
+                  title:
+                    type: string
+                    example: 可調節防潑水魔術氈雨衣-淺藍
+                  imgLink:
+                    type: string
+                    example: https://swagger.io/docs/specification/adding-examples/
+                  brand:
+                    type: string
+                    example: pehom
+                  price:
+                    type: number
+                    example: 250
+                  category:
+                    type: string
+                    example: 寵物用品,狗,外出
+                  description:
+                    type: string
+                    example: 【可調節防潑水魔術氈雨衣】..
+                  rate:
+                    type: number
+                    example: 0
+                  rateCount:
+                    type: number
+                    example: 0
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
+
+  /api/v1/admin/product/{productId}:
+    get:
+      tags:
+        - 後台-商品
+      description: 取得商品資訊
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    example: 100
+                  title:
+                    type: string
+                    example: 可調節防潑水魔術氈雨衣-淺藍
+                  imgLink:
+                    type: string
+                    example: https://swagger.io/docs/specification/adding-examples/
+                  brand:
+                    type: string
+                    example: pehom
+                  price:
+                    type: number
+                    example: 250
+                  category:
+                    type: string
+                    example: 寵物用品,狗,外出
+                  description:
+                    type: string
+                    example: 【可調節防潑水魔術氈雨衣】..
+                  rate:
+                    type: number
+                    example: 4.3
+                  rateCount:
+                    type: number
+                    example: 21
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
+
+    put:
+      tags:
+        - 後台-商品
+      description: 更新商品資料
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: 可調節防潑水魔術氈雨衣-黑
+                  imgLink:
+                    type: string
+                    example: https://swagger.io/docs/specification/adding-examples/
+                  brand:
+                    type: string
+                    example: pehom
+                  price:
+                    type: number
+                    example: 250
+                  category:
+                    type: string
+                    example: 寵物用品,狗,外出
+                  description:
+                    type: string
+                    example: 【可調節防潑水魔術氈雨衣】..
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    example: 100
+                  title:
+                    type: string
+                    example: 可調節防潑水魔術氈雨衣-淺藍
+                  imgLink:
+                    type: string
+                    example: https://swagger.io/docs/specification/adding-examples/
+                  brand:
+                    type: string
+                    example: pehom
+                  price:
+                    type: number
+                    example: 250
+                  category:
+                    type: string
+                    example: 寵物用品,狗,外出
+                  description:
+                    type: string
+                    example: 【可調節防潑水魔術氈雨衣】..
+                  rate:
+                    type: number
+                    example: 4.5
+                  rateCount:
+                    type: number
+                    example: 20
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
+
+    delete:
+      tags:
+        - 後台-商品
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 成功
+        "401":
+          description: 未登入
+        "403":
+          description: 權限不足
