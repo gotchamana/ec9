@@ -528,14 +528,17 @@ paths:
     post:
       tags:
         - 後台-商品
-      description: 新增商品
+      description: 新增商品 (body暫定這樣，不確定是否可行)
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
+                filename:
+                  type: string
+                  format: binary
                 title:
                   type: string
                   example: 可調節防潑水魔術氈雨衣-淺藍
