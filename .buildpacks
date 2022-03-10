@@ -1,2 +1,2 @@
-web=https://github.com/mars/create-react-app-buildpack
+web=heroku/nodejs
 backend=https://github.com/heroku/heroku-buildpack-java
