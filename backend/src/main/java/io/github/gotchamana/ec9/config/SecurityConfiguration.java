@@ -1,17 +1,23 @@
 package io.github.gotchamana.ec9.config;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import javax.crypto.*;
+import javax.servlet.http.*;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -82,10 +88,42 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         var authenticationHandler = new JwtAuthenticationHandler(jwtSecretKey());
 
-        var filter = new UsernamePasswordAuthenticationFilter(authenticationManager);
+        var filter = new UsernamePasswordAuthenticationFilter(authenticationManager) {
+
+            private final ObjectMapper objectMapper = new ObjectMapper();
+
+            @Override
+            public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+                throws AuthenticationException {
+
+                if (!request.getMethod().equals("POST")) {
+                    throw new AuthenticationServiceException(
+                        "Authentication method not supported: " + request.getMethod());
+                }
+
+                // 改從request body讀取帳號密碼
+                var json = readBodyAsJson(request);
+                var username = json.getOrDefault(getUsernameParameter(), "").trim();
+                var password = json.getOrDefault(getPasswordParameter(), "");
+
+                var authRequest = new UsernamePasswordAuthenticationToken(username, password);
+                setDetails(request, authRequest);
+
+                return this.getAuthenticationManager().authenticate(authRequest);
+            }
+
+            private Map<String, String> readBodyAsJson(HttpServletRequest request) {
+                try (var in = request.getInputStream()) {
+                    return objectMapper.readValue(in, new TypeReference<Map<String, String>>() {});
+                } catch (IOException e) {
+                    logger.error("Reading json body failed", e);
+                    return Map.of();
+                }
+            }
+        };
         filter.setUsernameParameter("account");
-        filter.setPasswordParameter("pwd");
-        filter.setFilterProcessesUrl("/api/v1/auth");
+        filter.setPasswordParameter("psd");
+        filter.setFilterProcessesUrl("/api/v1/login");
         filter.setAuthenticationSuccessHandler(authenticationHandler);
         filter.setAuthenticationFailureHandler(authenticationHandler);
 

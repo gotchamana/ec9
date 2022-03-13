@@ -1,6 +1,7 @@
 package io.github.gotchamana.ec9.auth;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -14,7 +15,7 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.*;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.security.core.*;
 import org.springframework.security.web.authentication.*;
 
@@ -36,12 +37,23 @@ public class JwtAuthenticationHandler implements AuthenticationSuccessHandler, A
         Authentication authentication) throws IOException, ServletException {
 
         try {
-            var jwt = createJwt(authentication).serialize();
-            var message = objectMapper.writeValueAsString(Map.of("token", jwt));
+            var principal = (ExtendedUserDetails) authentication.getPrincipal();
 
+            var jwt = createJwt(authentication).serialize();
+            var message = objectMapper.writeValueAsString(Map.of(
+                "token", jwt,
+                "userData", Map.of(
+                    "userId", principal.getId(),
+                    "name", principal.getName(),
+                    "account", principal.getUsername()
+                )
+            ));
+
+            response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(message);
         } catch (JOSEException e) {
-            log.error("Creating JWT for login failed, user name: {}",authentication.getName(), e);
+            log.error("Creating JWT for login failed, user name: {}", authentication.getName(), e);
         }
     }
 
@@ -70,9 +82,11 @@ public class JwtAuthenticationHandler implements AuthenticationSuccessHandler, A
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) throws IOException, ServletException {
 
-        var message = objectMapper.writeValueAsString(Map.of("message", exception.getMessage()));
+        var message = objectMapper.writeValueAsString(Map.of("message", 1003));
 
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(message);
     }
 }

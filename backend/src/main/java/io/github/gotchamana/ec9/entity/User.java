@@ -19,8 +19,11 @@ public class User {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
+    private String account;
 
     @Column(nullable = false)
     private String password;

@@ -6,5 +6,5 @@ import io.github.gotchamana.ec9.entity.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
-    User findByName(String name);
+    User findByAccount(String account);
 }
