@@ -19,6 +19,7 @@ import org.springframework.http.*;
 import org.springframework.security.core.*;
 import org.springframework.security.web.authentication.*;
 
+import io.github.gotchamana.ec9.util.APICode;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -82,7 +83,7 @@ public class JwtAuthenticationHandler implements AuthenticationSuccessHandler, A
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) throws IOException, ServletException {
 
-        var message = objectMapper.writeValueAsString(Map.of("message", 1003));
+        var message = objectMapper.writeValueAsString(Map.of("message", APICode.WRONG_ACCOUNT_OR_PASSWORD.getCode()));
 
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
