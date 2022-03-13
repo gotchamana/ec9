@@ -5,3 +5,7 @@ spring:
 
   jpa:
     open-in-view: false
+
+logging:
+  file:
+    name: logs/app.log
