@@ -1,15 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import Route from "./route/route";
+import { createTheme, GlobalStyles, ThemeProvider } from "@mui/material";
+import App from "./App";
 import store from "./store/index";
+import customTheme from "./style/theme";
 import reportWebVitals from "./reportWebVitals";
+
+const globalStyleConfig = {
+  body: {
+    margin: 0,
+  },
+};
+
+const theme = createTheme(customTheme);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Route />
-    </Provider>
+    <GlobalStyles styles={globalStyleConfig} />
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
