@@ -8,13 +8,16 @@ const snack = (dispatch: AppDispatch) => {
       errorMsg: message,
     };
     dispatch(setSnack(payload));
-    setTimeout(() => {
-      const closedPayload = {
-        isShow: false,
-        errorMsg: "",
-      };
-      dispatch(setSnack(closedPayload));
-    }, 3000);
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        const closedPayload = {
+          isShow: false,
+          errorMsg: "",
+        };
+        dispatch(setSnack(closedPayload));
+        resolve(0);
+      }, 3000);
+    });
   };
 };
 
