@@ -2,12 +2,14 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Grid } from "@mui/material";
 import * as Yup from "yup";
 import * as S from "./style";
 import RegisterImg from "../../static/registerImg.jpg";
 import api from "../../api/api";
 import { snack } from "../../util/util";
+import i18next from "../../locale/index";
 
 const CenterStyle = {
   display: "flex",
@@ -20,17 +22,18 @@ const CenterCenterStyle = {
   alignContent: "center",
 };
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("required"),
-  account: Yup.string().email("invalid account").required("required"),
+const validationSchema = Yup.object({
+  name: Yup.string().required(i18next.t("error.required")),
+  account: Yup.string().email("invalid account").required(i18next.t("error.required")),
   psd: Yup.string()
     .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+){8}/, {
-      message: "密碼需為八位數以上且英文數字夾雜",
+      message: i18next.t("error.psdInvalid"),
     })
-    .required("required"),
+    .required(i18next.t("error.required")),
 });
 
 function Register() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,7 +49,7 @@ function Register() {
       onSubmit={
         async (/* values */) => {
           //   await api(dispatch)({ method: "post", url: "" }, false);
-          await snack(dispatch)("註冊成功，稍後登入");
+          await snack(dispatch)(t("snack.registered"));
           navigate("/login");
         }
       }
@@ -79,7 +82,7 @@ function Register() {
                 >
                   <Grid container rowGap={2}>
                     <Grid item xs={3} sx={CenterCenterStyle}>
-                      <S.LoginText>名稱</S.LoginText>
+                      <S.LoginText>{t("user.name")}</S.LoginText>
                     </Grid>
                     <Grid item xs={9}>
                       <S.Input
@@ -94,7 +97,7 @@ function Register() {
                       />
                     </Grid>
                     <Grid item xs={3} sx={CenterCenterStyle}>
-                      <S.LoginText>帳號</S.LoginText>
+                      <S.LoginText>{t("user.account")}</S.LoginText>
                     </Grid>
                     <Grid item xs={9}>
                       <S.Input
@@ -109,7 +112,7 @@ function Register() {
                       />
                     </Grid>
                     <Grid item xs={3} sx={CenterCenterStyle}>
-                      <S.LoginText>密碼</S.LoginText>
+                      <S.LoginText>{t("user.psd")}</S.LoginText>
                     </Grid>
                     <Grid item xs={9}>
                       <S.Input
@@ -128,12 +131,13 @@ function Register() {
                 <Grid container item direction="column" xs={3}>
                   <Grid item sx={CenterStyle}>
                     <S.ConfirmBtn variant="contained" type="submit">
-                      註冊
+                      {t("register.register")}
                     </S.ConfirmBtn>
                   </Grid>
                   <Grid item sx={{ m: 1, ...CenterStyle }}>
                     <span>
-                      已有帳號？<Link to="/login">立即登入</Link>
+                      {t("register.hasAccount")}
+                      <Link to="/login">{t("register.login")}</Link>
                     </span>
                   </Grid>
                 </Grid>

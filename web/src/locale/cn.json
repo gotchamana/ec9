@@ -1,0 +1,28 @@
+{
+  "error": {
+    "required": "不可為空",
+    "accountOrPsdInvalid": " 帳號或密碼錯誤",
+    "duplicatedAccount": "帳號重複",
+    "psdInvalid": "密碼需為八位數以上且英文數字夾雜",
+    "unexpected": "未知的錯誤"
+  },
+  "snack": {
+    "logined": "登入成功，立即跳轉",
+    "registered": "註冊成功，稍後登入"
+  },
+  "user": {
+    "name": "名稱",
+    "account": "帳號",
+    "psd": "密碼"
+  },
+  "login": {
+    "login": "登入",
+    "noAccount": "還沒有帳號？",
+    "register": "立即註冊"
+  },
+  "register": {
+    "register": "註冊",
+    "hasAccount": "已有帳號？",
+    "login": "立即登入"
+  }
+}

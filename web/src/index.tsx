@@ -5,6 +5,7 @@ import { createTheme, GlobalStyles, ThemeProvider } from "@mui/material";
 import App from "./App";
 import store from "./store/index";
 import customTheme from "./style/theme";
+import "./locale/index";
 import reportWebVitals from "./reportWebVitals";
 
 const globalStyleConfig = {
