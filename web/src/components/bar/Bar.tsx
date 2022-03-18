@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Tooltip,
@@ -9,7 +9,10 @@ import {
   Box,
   Button,
   Toolbar,
-  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -64,6 +67,7 @@ const ListProps = {
 
 export default function Bar() {
   const { t, i18n } = useTranslation();
+  const [isDisplayHamburger, toggleHamburger] = useState(false);
   const [menuRef, setMenuRef] = React.useState<MenuRef>(null);
   const open = Boolean(menuRef);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -72,6 +76,7 @@ export default function Bar() {
   const handleClose = () => {
     setMenuRef(null);
   };
+
   return (
     <>
       <Grid container item sx={{ height: "5rem" }}>
@@ -132,7 +137,6 @@ export default function Bar() {
           </Tooltip>
           <Menu
             anchorEl={menuRef}
-            id="account-menu"
             open={open}
             onClose={handleClose}
             onClick={handleClose}
@@ -158,17 +162,20 @@ export default function Bar() {
       <Grid container item>
         <Toolbar sx={{ width: "100%" }}>
           <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}>
-            <IconButton onClick={() => {}}>
+            <IconButton onClick={() => toggleHamburger(true)}>
               <MenuIcon />
             </IconButton>
-            {NavItem.map((name) => (
-              <React.Fragment key={name}>
-                <Button key={name} onClick={() => {}} sx={{ my: 2, display: "block" }}>
-                  {t(name)}
-                </Button>
-                <Divider />
-              </React.Fragment>
-            ))}
+            <Drawer anchor="left" open={isDisplayHamburger} onClose={() => toggleHamburger(false)}>
+              <Box sx={{ width: "50vw" }}>
+                <List>
+                  {NavItem.map((name) => (
+                    <ListItem button key={name}>
+                      <ListItemText primary={t(name)} sx={{ color: "primary.dark" }} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            </Drawer>
           </Box>
           <Box
             sx={{
