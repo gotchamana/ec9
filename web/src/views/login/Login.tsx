@@ -2,11 +2,13 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Grid } from "@mui/material";
 import * as Yup from "yup";
 import * as S from "./style";
 import LoginImg from "../../static/LoginImg.jpg";
 import api from "../../api/api";
+import i18next from "../../locale/index";
 
 const CenterStyle = {
   display: "flex",
@@ -19,12 +21,15 @@ const CenterCenterStyle = {
   alignContent: "center",
 };
 
-const validationSchema = Yup.object().shape({
-  account: Yup.string().email("invalid account").required("required"),
-  psd: Yup.string().required("required"),
+const validationSchema = Yup.object({
+  account: Yup.string()
+    .email(i18next.t("error.accountOrPsdInvalid"))
+    .required(i18next.t("error.required")),
+  psd: Yup.string().required(i18next.t("error.required")),
 });
 
 function Login() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,7 +78,7 @@ function Login() {
                 >
                   <Grid container rowGap={2}>
                     <Grid item xs={3} sx={CenterCenterStyle}>
-                      <S.LoginText>帳號</S.LoginText>
+                      <S.LoginText>{t("user.account")}</S.LoginText>
                     </Grid>
                     <Grid item xs={9}>
                       <S.Input
@@ -88,7 +93,7 @@ function Login() {
                       />
                     </Grid>
                     <Grid item xs={3} sx={CenterCenterStyle}>
-                      <S.LoginText>密碼</S.LoginText>
+                      <S.LoginText>{t("user.psd")}</S.LoginText>
                     </Grid>
                     <Grid item xs={9}>
                       <S.Input
@@ -107,12 +112,13 @@ function Login() {
                 <Grid container item direction="column" xs={3}>
                   <Grid item sx={CenterStyle}>
                     <S.ConfirmBtn variant="contained" type="submit">
-                      登入
+                      {t("login.login")}
                     </S.ConfirmBtn>
                   </Grid>
                   <Grid item sx={{ m: 1, ...CenterStyle }}>
                     <span>
-                      還沒有帳號？<Link to="/register">立即註冊</Link>
+                      {t("login.noAccount")}
+                      <Link to="/register">{t("login.register")}</Link>
                     </span>
                   </Grid>
                 </Grid>

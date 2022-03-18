@@ -29,6 +29,7 @@ const Brand = styled("h1")`
   width: 15rem;
   padding: 1rem;
   font-size: 1.25rem;
+  text-align: center;
   box-sizing: border-box;
   color: ${(props) => props.theme.palette.background.default};
   background-color: ${(props) => props.theme.palette.primary.main};

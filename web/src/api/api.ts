@@ -1,6 +1,7 @@
 import axios, { Method } from "axios";
 import { AppDispatch } from "../store";
 import { snack } from "../util/util";
+import i18next from "../locale/index";
 
 interface Option {
   method: Method;
@@ -30,7 +31,7 @@ const request = (dispatch: AppDispatch) => (option: Option, isAuth: boolean) => 
       if (err.response) {
         console.log(err.response.data);
       } else {
-        snack(dispatch)("Unexpected error");
+        snack(dispatch)(i18next.t("error.unexpected"));
       }
     });
 };
