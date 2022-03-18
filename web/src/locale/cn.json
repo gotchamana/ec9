@@ -24,5 +24,15 @@
     "register": "註冊",
     "hasAccount": "已有帳號？",
     "login": "立即登入"
-  }
+  },
+  "navigation": {
+    "home": "首頁",
+    "pet": "找寵物",
+    "product": "找商品",
+    "about": "關於我們"
+  },
+  "button": {
+    "search": "查詢"
+  },
+  "footer": "開發人員"
 }

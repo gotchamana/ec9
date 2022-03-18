@@ -24,5 +24,15 @@
     "register": "Register",
     "hasAccount": "Already has account?",
     "login": "Login"
-  }
+  },
+  "navigation": {
+    "home": "HOME",
+    "pet": "PETS",
+    "product": "PRODUCTS",
+    "about": "ABOUT"
+  },
+  "button": {
+    "search": "Search"
+  },
+  "footer": "Developers"
 }
