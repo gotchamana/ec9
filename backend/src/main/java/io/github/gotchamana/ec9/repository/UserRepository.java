@@ -6,5 +6,7 @@ import io.github.gotchamana.ec9.entity.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
+    boolean existsByAccount(String account);
+
     User findByAccount(String account);
 }
