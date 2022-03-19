@@ -1,0 +1,38 @@
+{
+  "error": {
+    "required": "required",
+    "accountOrPsdInvalid": " Invalid account or password.",
+    "duplicatedAccount": "Duplicated account.",
+    "psdInvalid": "Password should be at least 8 characters, digits and characters combined.",
+    "unexpected": "Unexpected error."
+  },
+  "snack": {
+    "logined": "Login successfully, redirect...",
+    "registered": "Registered successfully, please sign in later."
+  },
+  "user": {
+    "name": "Name",
+    "account": "Account",
+    "psd": "Password"
+  },
+  "login": {
+    "login": "Login",
+    "noAccount": "No account?",
+    "register": "Sign up"
+  },
+  "register": {
+    "register": "Register",
+    "hasAccount": "Already has account?",
+    "login": "Login"
+  },
+  "navigation": {
+    "home": "HOME",
+    "pet": "PETS",
+    "product": "PRODUCTS",
+    "about": "ABOUT"
+  },
+  "button": {
+    "search": "Search"
+  },
+  "footer": "Developers"
+}
