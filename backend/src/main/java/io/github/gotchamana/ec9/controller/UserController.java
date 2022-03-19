@@ -20,6 +20,7 @@ import io.github.gotchamana.ec9.converter.StringTrimmerDeserializer;
 import io.github.gotchamana.ec9.entity.User;
 import io.github.gotchamana.ec9.repository.UserRepository;
 import io.github.gotchamana.ec9.service.UserService;
+import io.github.gotchamana.ec9.util.APICode;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
@@ -47,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, List<Integer>>> register(@Valid @RequestBody RegisterUser registerUser,
+    public ResponseEntity<Map<String, List<APICode>>> register(@Valid @RequestBody RegisterUser registerUser,
         BindingResult bindingResult) {
 
         log.debug("{}: {}", RegisterUser.class.getSimpleName(), registerUser);
@@ -58,8 +59,8 @@ public class UserController {
             var codes = bindingResult.getAllErrors()
                 .stream()
                 .map(ObjectError::getDefaultMessage)
-                .filter(this::isNumber)
-                .map(Integer::parseInt)
+                .filter(APICode::isValidCode)
+                .map(APICode::fromCode)
                 .toList();
 
             return ResponseEntity.badRequest().body(Map.of("message", codes));
@@ -68,10 +69,6 @@ public class UserController {
         userService.save(modelMapper.map(registerUser, User.class));
 
         return ResponseEntity.noContent().build();
-    }
-
-    private boolean isNumber(String str) {
-        return str.codePoints().allMatch(Character::isDigit);
     }
 
     public static class MappingModule implements Module {
@@ -111,7 +108,7 @@ public class UserController {
                 return;
 
             if (userRepository.existsByAccount(account))
-                errors.rejectValue("account", "NotExistent", "1001");
+                errors.rejectValue("account", "NotExistent", APICode.DUPLICATE_ACCOUNT_CODE + "");
         }
 
         private void checkPassword(String password, Errors errors) {
@@ -119,7 +116,7 @@ public class UserController {
                 return;
 
             if (!isValidPassword(password))
-                errors.rejectValue("psd", "Valid", "1002");
+                errors.rejectValue("psd", "Valid", APICode.INVALID_PASSWORD_CODE + "");
         }
 
         private boolean isValidPassword(String password) {
@@ -153,16 +150,16 @@ public class UserController {
     @Data
     public static class RegisterUser {
 
-        @NotBlank(message = "1000")
+        @NotBlank(message = APICode.BLANK_FIELD_CODE + "")
         @JsonDeserialize(using = StringTrimmerDeserializer.class)
         private String name;
 
-        @NotBlank(message = "1000")
+        @NotBlank(message = APICode.BLANK_FIELD_CODE + "")
         @JsonDeserialize(using = StringTrimmerDeserializer.class)
         private String account;
 
         @ToString.Exclude
-        @NotBlank(message = "1000")
+        @NotBlank(message = APICode.BLANK_FIELD_CODE + "")
         private String psd;
     }
 }

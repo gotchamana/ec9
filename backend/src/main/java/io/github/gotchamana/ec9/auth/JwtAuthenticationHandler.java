@@ -83,7 +83,7 @@ public class JwtAuthenticationHandler implements AuthenticationSuccessHandler, A
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) throws IOException, ServletException {
 
-        var message = objectMapper.writeValueAsString(Map.of("message", APICode.WRONG_ACCOUNT_OR_PASSWORD.getCode()));
+        var message = objectMapper.writeValueAsString(Map.of("message", APICode.WRONG_ACCOUNT_OR_PASSWORD_CODE));
 
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
