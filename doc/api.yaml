@@ -23,8 +23,6 @@ tags:
     description: 公開存取
   - name: 前台-結帳
     description: 現在還不知道要啥 API 嗚嗚嗚嗚 QQ
-  - name: 後台-帳號
-    description: 僅 admin 可存取
   - name: 後台-商品
     description: 僅 admin 可存取
 
@@ -67,15 +65,12 @@ paths:
                   message:
                     type: number
               examples:
-                欄位不可為空:
+                帳號欄位不可為空、帳號重複:
                   value:
-                    message: 1000
-                帳號重複:
+                    account: [1000, 1001]
+                密碼欄位非八位數以上且英文數字夾雜的字串:
                   value:
-                    message: 1001
-                密碼非八位數以上且英文數字夾雜的字串:
-                  value:
-                    message: 1002
+                    psd: [1002]
 
   /api/v1/login:
     post:
@@ -132,45 +127,11 @@ paths:
                   message:
                     type: number
               examples:
-                欄位不可為空:
+                帳號欄位不可為空、帳號重複:
                   value:
-                    message: 1000
-                帳號或密碼錯誤:
-                  value:
-                    message: 1003
+                    account: [1000, 1001]
 
   /api/v1/user/{userId}:
-    get:
-      tags:
-        - 前台-用戶
-      description: 取得用戶資訊
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  userId:
-                    type: string
-                    example: "11111"
-                  name:
-                    type: "string"
-                    example: "tim"
-                  account:
-                    type: "string"
-                    example: "a1234@gmail.com"
-        "401":
-          description: 未登入
-        "403":
-          description: 權限不足
     patch:
       tags:
         - 前台-用戶
@@ -241,7 +202,7 @@ paths:
     get:
       tags:
         - 前台-商品
-      description: 取得商品列表
+      description: 取得商品列表（參數沒帶，預設為全部商品）
       parameters:
         - name: category
           in: query
@@ -286,10 +247,16 @@ paths:
                     imgLink:
                       type: string
                       example: https://swagger.io/docs/specification/adding-examples/
+                    brand:
+                      type: string
+                      example: pehom
                     price:
                       type: number
                       example: 250
-                    score:
+                    category:
+                      type: string
+                      example: 寵物用品,狗,外出
+                    rate:
                       type: number
                       example: 4.3
 
@@ -412,117 +379,6 @@ paths:
                           example: https://swagger.io/docs/specification/adding-examples/
 
   # ==== 後台 ====
-  /api/v1/admin/login:
-    post:
-      tags:
-        - 後台-帳號
-      description: 用戶登入後台
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "object"
-              required:
-                - "account"
-                - "psd"
-              properties:
-                account:
-                  type: "string"
-                  example: "a1234@gmail.com"
-                psd:
-                  type: "string"
-                  example: "a1234567"
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: 1111111
-                  userData:
-                    type: object
-                    properties:
-                      userId:
-                        type: string
-                        example: 11111
-                      name:
-                        type: "string"
-                        example: "tim"
-                      account:
-                        type: "string"
-                        example: "a1234@gmail.com"
-
-        "400":
-          description: 失敗
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: number
-              examples:
-                欄位不可為空:
-                  value:
-                    message: 1000
-                帳號或密碼錯誤:
-                  value:
-                    message: 1003
-        "401":
-          description: 未登入
-        "403":
-          description: 權限不足
-
-  /api/v1/admin/products:
-    get:
-      tags:
-        - 後台-商品
-      description: 取得商品列表
-      parameters:
-        - name: keyword
-          in: query
-          description: 關鍵字
-          schema:
-            type: string
-            example: 狗狗
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    example: 100
-                  title:
-                    type: string
-                    example: 可調節防潑水魔術氈雨衣-淺藍
-                  imgLink:
-                    type: string
-                    example: https://swagger.io/docs/specification/adding-examples/
-                  brand:
-                    type: string
-                    example: pehom
-                  price:
-                    type: number
-                    example: 250
-                  category:
-                    type: string
-                    example: 寵物用品,狗,外出
-                  rate:
-                    type: number
-                    example: 4.3
-        "401":
-          description: 未登入
-        "403":
-          description: 權限不足
 
   /api/v1/admin/product:
     post:
@@ -596,58 +452,7 @@ paths:
           description: 未登入
         "403":
           description: 權限不足
-
   /api/v1/admin/product/{productId}:
-    get:
-      tags:
-        - 後台-商品
-      description: 取得商品資訊
-      parameters:
-        - name: productId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    example: 100
-                  title:
-                    type: string
-                    example: 可調節防潑水魔術氈雨衣-淺藍
-                  imgLink:
-                    type: string
-                    example: https://swagger.io/docs/specification/adding-examples/
-                  brand:
-                    type: string
-                    example: pehom
-                  price:
-                    type: number
-                    example: 250
-                  category:
-                    type: string
-                    example: 寵物用品,狗,外出
-                  description:
-                    type: string
-                    example: 【可調節防潑水魔術氈雨衣】..
-                  rate:
-                    type: number
-                    example: 4.3
-                  rateCount:
-                    type: number
-                    example: 21
-        "401":
-          description: 未登入
-        "403":
-          description: 權限不足
-
     put:
       tags:
         - 後台-商品
