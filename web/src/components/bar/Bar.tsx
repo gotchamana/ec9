@@ -161,7 +161,7 @@ export default function Bar() {
       </Grid>
       <Grid container item>
         <Toolbar sx={{ width: "100%" }}>
-          <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "block", sm: "none" } }}>
             <IconButton onClick={() => toggleHamburger(true)}>
               <MenuIcon />
             </IconButton>
@@ -180,7 +180,7 @@ export default function Bar() {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: "none", md: "flex" },
+              display: { xs: "none", sm: "flex" },
               justifyContent: "space-around",
               alignItems: "center",
             }}
