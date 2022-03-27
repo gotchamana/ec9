@@ -3,12 +3,13 @@ import { Grid, Paper } from "@mui/material";
 import Carousel from "./Carousel";
 import Bar from "../../components/bar/Bar";
 import Card from "./Card";
-import Footer from "./Footer";
+import Footer from "../../components/footer/Footer";
 import Search from "./Search";
+import Layout from "../../components/layout/layout";
 
 function Main() {
   return (
-    <Paper sx={{ width: "100%", minHeight: "100vh" }}>
+    <Layout>
       <Bar />
       <Grid container sx={{ my: "1rem", justifyContent: "center" }}>
         <Search />
@@ -22,7 +23,7 @@ function Main() {
         ))}
       </Grid>
       <Footer />
-    </Paper>
+    </Layout>
   );
 }
 

@@ -12,10 +12,16 @@ const Logo = styled("img")`
   filter: invert(42%) sepia(44%) saturate(314%) hue-rotate(51deg) brightness(75%) contrast(87%);
 `;
 
+const Container = styled("div")`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+`;
+
 export default function Footer() {
   const { t } = useTranslation();
   return (
-    <>
+    <Container>
       <Divider sx={{ bgcolor: "primary.main" }} />
       <Grid container sx={{ height: "6rem", p: 2 }}>
         <Grid xs={9} item>
@@ -35,6 +41,6 @@ export default function Footer() {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 }

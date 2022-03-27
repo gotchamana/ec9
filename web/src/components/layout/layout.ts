@@ -1,10 +1,12 @@
-import { Grid } from "@mui/material";
+import { Paper } from "@mui/material";
 import { styled } from "@mui/system";
 
-const Layout = styled(Grid)`
+const Layout = styled(Paper)`
   width: 100%;
-  height: 100vh;
-  background: ${(props) => props.theme.palette.background.default};
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 6rem;
+  box-sizing: border-box;
 `;
 
 export default Layout;
