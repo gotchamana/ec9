@@ -16,5 +16,9 @@ export default {
       dark: "#00707d",
       contrastText: "#fff",
     },
+    text: {
+      primary: "#685762",
+      secondary: "#0d0d0d",
+    },
   },
 };

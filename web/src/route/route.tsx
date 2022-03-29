@@ -4,6 +4,7 @@ import Login from "../views/login/Login";
 import Register from "../views/register/Register";
 import Main from "../views/main/Main";
 import User from "../views/user/User";
+import Product from "../views/product/Product";
 
 function Path() {
   return (
@@ -13,6 +14,7 @@ function Path() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/user" element={<User />} />
+        <Route path="/product" element={<Product />} />
       </Routes>
     </BrowserRouter>
   );
