@@ -85,7 +85,7 @@ export default function User() {
         </Grid>
         {isEdit && (
           <Grid item sx={{ my: 2, display: "flex", justifyContent: "center" }}>
-            <Button variant="contained">儲存</Button>
+            <Button variant="contained">{t("button.save")}</Button>
           </Grid>
         )}
       </Grid>
