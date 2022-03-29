@@ -31,8 +31,23 @@
     "product": "PRODUCTS",
     "about": "ABOUT"
   },
+  "product": {
+    "amount": "Amount"
+  },
+  "search": {
+    "category": "Category",
+    "keyword": "Keyword",
+    "priceRange": "Price Range",
+    "sort": "Sort",
+    "popular": "Popular",
+    "priceDesc": "Price: High to Low",
+    "priceAsc": "Price: Low to High",
+    "rateDesc": "Rate: High to Low",
+    "rateAsc": "Rate: Low to High"
+  },
   "button": {
-    "search": "Search"
+    "search": "Search",
+    "addToCart": "Add to Cart"
   },
   "footer": "Developers"
 }
