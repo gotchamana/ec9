@@ -45,9 +45,15 @@
     "rateDesc": "Rate: High to Low",
     "rateAsc": "Rate: Low to High"
   },
+  "cart": {
+    "cart": "Cart",
+    "subtotal": "Subtotal"
+  },
   "button": {
     "search": "Search",
-    "addToCart": "Add to Cart"
+    "addToCart": "Add to Cart",
+    "save": "Save",
+    "checkout": "Checkout"
   },
   "footer": "Developers"
 }
