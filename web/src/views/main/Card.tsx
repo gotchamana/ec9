@@ -5,12 +5,15 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
-import CatImg1 from "../../static/carousel/cat1.jpg";
 
-export default function Card() {
+interface CardProps {
+  src: string;
+}
+
+export default function Card({ src }: CardProps) {
   return (
     <CardItem sx={{ width: "20rem", height: "23rem", display: "flex", flexWrap: "wrap", m: 1 }}>
-      <CardMedia component="img" height="200" image={CatImg1} alt="" />
+      <CardMedia component="img" height="200" image={src} alt="" />
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography variant="h6" color="text.primary" sx={{ textAlign: "center" }}>
           英國短毛貓

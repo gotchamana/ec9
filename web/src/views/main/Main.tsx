@@ -6,6 +6,7 @@ import Card from "./Card";
 import Footer from "../../components/footer/Footer";
 import Search from "./Search";
 import Layout from "../../components/layout/layout";
+import CatImg1 from "../../static/carousel/cat1.jpg";
 
 function Main() {
   return (
@@ -19,7 +20,7 @@ function Main() {
       </Grid>
       <Grid container sx={{ p: 5 }}>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((card) => (
-          <Card key={card} />
+          <Card key={card} src={CatImg1} />
         ))}
       </Grid>
       <Footer />
