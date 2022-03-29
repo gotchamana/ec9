@@ -31,8 +31,23 @@
     "product": "找商品",
     "about": "關於我們"
   },
+  "product": {
+    "amount": "數量"
+  },
+  "search": {
+    "category": "商品類別",
+    "keyword": "關鍵字",
+    "priceRange": "價格區間",
+    "sort": "排序",
+    "popular": "熱門",
+    "priceDesc": "價格由高至低",
+    "priceAsc": "價格由低至高",
+    "rateDesc": "評價由高至低",
+    "rateAsc": "評價由低至高"
+  },
   "button": {
-    "search": "查詢"
+    "search": "查詢",
+    "addToCart": "加入購物車"
   },
   "footer": "開發人員"
 }
