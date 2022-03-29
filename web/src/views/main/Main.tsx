@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper } from "@mui/material";
+import { Grid } from "@mui/material";
 import Carousel from "./Carousel";
 import Bar from "../../components/bar/Bar";
 import Card from "./Card";

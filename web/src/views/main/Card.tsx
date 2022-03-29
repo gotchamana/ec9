@@ -12,13 +12,13 @@ export default function Card() {
     <CardItem sx={{ width: "20rem", height: "23rem", display: "flex", flexWrap: "wrap", m: 1 }}>
       <CardMedia component="img" height="200" image={CatImg1} alt="" />
       <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" color="text.secondary" sx={{ textAlign: "center" }}>
+        <Typography variant="h6" color="text.primary" sx={{ textAlign: "center" }}>
           英國短毛貓
         </Typography>
       </CardContent>
       <CardActions sx={{ flexGrow: 1, justifyContent: "space-around" }}>
         <Rating value={2} readOnly />
-        <Typography variant="h4" color="text.secondary">
+        <Typography variant="h4" color="text.primary">
           $19999
         </Typography>
       </CardActions>
