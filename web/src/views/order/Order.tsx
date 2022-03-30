@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, Divider } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Bar from "../../components/bar/Bar";
 import Footer from "../../components/footer/Footer";
