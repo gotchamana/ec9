@@ -49,11 +49,19 @@
     "cart": "Cart",
     "subtotal": "Subtotal"
   },
+  "order": {
+    "title": "My Order",
+    "giveReviews": "Give Reviews",
+    "reviewed": "Reviewed",
+    "trackingNumber": "Tracking Number"
+  },
   "button": {
     "search": "Search",
     "addToCart": "Add to Cart",
     "save": "Save",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "submit": "Submit",
+    "cancel": "Cancel"
   },
   "footer": "Developers"
 }

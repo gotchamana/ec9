@@ -49,11 +49,19 @@
     "cart": "購物車",
     "subtotal": "小計"
   },
+  "order": {
+    "title": "我的訂單",
+    "giveReviews": "給評價",
+    "reviewed": "已評價",
+    "trackingNumber": "訂單編號"
+  },
   "button": {
     "search": "查詢",
     "addToCart": "加入購物車",
     "save": "儲存",
-    "checkout": "結帳"
+    "checkout": "結帳",
+    "submit": "送出",
+    "cancel": "取消"
   },
   "footer": "開發人員"
 }
