@@ -25,6 +25,9 @@ function Path() {
         <Route path="/product" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
+        <Route path="/b/login" element={<BackstageLogin />} />
+        <Route path="/b/list" element={<BackstageList />} />
+        <Route path="/b/product" element={<BackstageProduct />} />
       </Routes>
     </BrowserRouter>
   );
