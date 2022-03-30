@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import { Divider, Button } from "@mui/material";
+import { Divider } from "@mui/material";
 
 export const EDivider = styled(Divider)`
   height: 1px;
