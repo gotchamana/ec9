@@ -9,6 +9,10 @@ import Product from "../views/product/Product";
 import Cart from "../views/cart/Cart";
 import Order from "../views/order/Order";
 
+import BackstageLogin from "../views/backstage/Login";
+import BackstageList from "../views/backstage/List";
+import BackstageProduct from "../views/backstage/Product";
+
 function Path() {
   return (
     <BrowserRouter>
